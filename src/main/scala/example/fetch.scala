@@ -29,7 +29,7 @@ object fetch extends App{
   val result = spark.sql(
     s"""
        |SELECT * FROM delta_table
-       |WHERE AccountNo IN ("557777","667777","887777","997777");
+       |WHERE AccountNo IN ("134286","359012");
       """.stripMargin)
 
   val endTime = System.nanoTime()

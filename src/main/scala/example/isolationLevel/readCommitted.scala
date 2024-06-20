@@ -1,4 +1,5 @@
 package example.isolationLevel
+
 import example.time
 import org.apache.spark.sql.SparkSession
 import io.delta.tables.DeltaTable
@@ -35,7 +36,7 @@ object readCommitted extends App{
     println("Write operation started")
     val deltaTable = DeltaTable.forPath(spark, deltaPath)
     deltaTable.as("dt").updateExpr(
-      "AccountNo = '337777'",
+      "AccountNo = '337777' ",
       Map("DEPOSITAMT" -> "DEPOSITAMT + 100.0", "BALANCEAMT"->"BALANCEAMT + 100.0", "VALUEDATE"->s"to_date('${time.getTime()}', 'yy-MM-dd')")
     )
     println("Write operation completed")
