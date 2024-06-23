@@ -25,16 +25,18 @@ object upsert extends App{
 //      .toDF("AccountNo", "DATE", "TRANSACTIONDETAILS", "CHQNO", "VALUEDATE", "WITHDRAWALAMT", "DEPOSITAMT", "BALANCEAMT")
 //      .withColumn("DATE", to_date($"DATE"))
 //      .withColumn("VALUEDATE", to_date($"VALUEDATE"))
-
 //
-//  deltaT.as("dt")
-//    .merge(
-//      newData.as("nd"),
-//      "dt.AccountNo = nd.AccountNo AND dt.VALUEDATE = nd.VALUEDATE")
-//    .whenMatched().updateAll() //Note: To use updateAll the schema should match for both dataframe otherwise use updateExpr with Map() to map schema
-//    .whenNotMatched().insertAll()//Same condition as updateAll
-//    .execute()
-//  println(s"Folder Size After : ${Extra.folderSize.getCurrentFolderSize(delPath)}")
+//    val deltaT=DeltaTable.forPath(spark,delPath)
+//
+//    deltaT.as("dt")
+//      .merge(
+//        df.as("nd"),
+//        "dt.AccountNo = nd.AccountNo AND dt.VALUEDATE = nd.VALUEDATE")
+//      .whenMatched().updateAll() //Note: To use updateAll the schema should match for both dataframe otherwise use updateExpr with Map() to map schema
+//      .whenNotMatched().insertAll()//Same condition as updateAll
+//      .execute()
+//    println(s"Folder Size After : ${Extra.folderSize.getCurrentFolderSize(delPath)}")
+
 
     //Schema for bank_transaction
     val schema = StructType(Array(

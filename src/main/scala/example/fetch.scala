@@ -29,7 +29,8 @@ object fetch extends App{
   val result = spark.sql(
     s"""
        |SELECT * FROM delta_table
-       |WHERE AccountNo IN ("134286","359012");
+       |WHERE AccountNo="557777"
+       |ORDER BY AccountNo,VALUEDATE;
       """.stripMargin)
 
   val endTime = System.nanoTime()
@@ -56,8 +57,9 @@ object fetch extends App{
 //  filterdf.show(truncate=false)
 //
 //  println()
-  println(s"Elapsed time for query: '$elapsedTime' ")
+  // println(s"Elapsed time for query: '$elapsedTime' ")
 //  println(s"Elapsed time for query using dataframe method: '$elapsedTime2' ")
 //  print(s"${time.getTime()}")
 //  println()
+  spark.stop()
 }
