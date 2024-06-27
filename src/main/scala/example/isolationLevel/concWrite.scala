@@ -1,5 +1,6 @@
 package example.isolationLevel
-import example.time
+
+import example.Extra.time
 import org.apache.spark.sql.SparkSession
 import io.delta.tables.DeltaTable
 
@@ -30,10 +31,13 @@ object concWrite extends App{
       println()
       println(s"Write operation for account $accountNo started, attempt $attempt")
       println()
+
       try {
+        val latest_balance=example.Extra.getBal.getTabBal(spark,deltaPath,accountNo)
+
         val deltaTable = DeltaTable.forPath(spark, deltaPath)
         deltaTable.as("dt").updateExpr(
-          s"AccountNo = '$accountNo'",
+          s"AccountNo = '$accountNo'AND BALANCEAMT='$latest_balance'",
           Map(
             "DEPOSITAMT" -> "DEPOSITAMT + 100.0",
             "BALANCEAMT" -> "BALANCEAMT + 100.0",
@@ -63,6 +67,7 @@ object concWrite extends App{
       }
     }
   }
+
   val writeFuture1 = writeOperation(spark, "557777")
   val writeFuture2 = writeOperation(spark, "557777")
 

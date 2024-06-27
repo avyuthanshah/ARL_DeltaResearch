@@ -18,5 +18,5 @@ object folderSize extends App{
     size
   }
 
-  //println(getCurrentFolderSize("/home/avyuthan-shah/Desktop/dataF"))
+  println(getCurrentFolderSize("/home/avyuthan-shah/Desktop/dataF"))
 }

@@ -1,6 +1,6 @@
 package example.isolationLevel
 
-import example.time
+import example.Extra.time
 import org.apache.spark.sql.{Encoders, SparkSession}
 import io.delta.tables.DeltaTable
 

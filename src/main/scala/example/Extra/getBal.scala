@@ -1,13 +1,14 @@
-package example
+package example.Extra
 
 import io.delta.tables.DeltaTable
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
 object getBal extends App{
+//  val delPath = "/home/avyuthan-shah/Desktop/dataF"
 
-  def updTab(spark: SparkSession, accNo: String, addBal: Double): Unit = {
-    val delPath = "/home/avyuthan-shah/Desktop/dataF"
+  def updTab(spark: SparkSession,delPath:String, accNo: String, addBal: Double): Unit = {  //Updates single latest record for given accountnumber
+
     spark.read.format("delta").option("header", "true").load(delPath).createOrReplaceTempView("delta_table")
 
     val result = spark.sql(
@@ -22,14 +23,14 @@ object getBal extends App{
 
     val dT = DeltaTable.forPath(spark, delPath)
     dT.update(
-      condition = col("AccountNo") === accNo,
+      condition = col("AccountNo") === accNo && col("BALANCEAMT") === balance,
       set = Map("DEPOSITAMT" -> lit(balance+addBal), "BALANCEAMT" -> lit(balance + addBal))
     )
     dT.toDF.filter(col("AccountNo") === accNo).show()
   }
 
-  def getTab(spark: SparkSession, accNo: String): Unit = {
-    val delPath = "/home/avyuthan-shah/Desktop/dataF2"
+  def getTabBal(spark: SparkSession,delPath:String, accNo: String): Double = { //Retrieve latest balance for given account number
+
     spark.read.format("delta").option("header", "true").load(delPath).createOrReplaceTempView("delta_table")
 
     val result = spark.sql(
@@ -42,6 +43,8 @@ object getBal extends App{
 
     val balance = result.head.getAs[Double]("BALANCEAMT")
 
-    println(s"Current balance for account $accNo: $balance")
+    balance
+
+//    println(s"Current balance for account $accNo: $balance")
   }
 }

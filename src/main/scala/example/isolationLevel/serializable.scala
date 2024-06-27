@@ -1,6 +1,6 @@
 package example.isolationLevel
 
-import example.time
+import example.Extra.time
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import io.delta.tables.DeltaTable

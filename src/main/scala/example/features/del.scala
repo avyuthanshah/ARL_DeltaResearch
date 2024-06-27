@@ -1,7 +1,7 @@
-package example
+package example.features
 
 import io.delta.tables.DeltaTable
-import org.apache.spark.sql.{Encoders, SparkSession}
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
 object del extends App{

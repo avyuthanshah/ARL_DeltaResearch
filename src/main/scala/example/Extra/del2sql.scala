@@ -1,6 +1,6 @@
-package example
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.SaveMode
+package example.Extra
+
+import org.apache.spark.sql.{SaveMode, SparkSession}
 //import io.delta.tables.DeltaTable
 //import org.apache.spark.sql.functions._
 

@@ -1,8 +1,8 @@
-package example
+package example.features
 
+import example.Extra.status
 import io.delta.tables.DeltaTable
-import org.apache.spark.sql.{DataFrame, Encoders, SparkSession}
-import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{Encoders, SparkSession}
 
 object fetch extends App{
   val spark=SparkSession.builder()
@@ -12,13 +12,15 @@ object fetch extends App{
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
     .getOrCreate()
 
-  val delPath="/home/avyuthan-shah/Desktop/dataF"
+  val delPath="/home/avyuthan-shah/Desktop/dataF_json"
   val version=DeltaTable.forPath(spark, delPath).history(1).select("version").as[Long](Encoders.scalaLong).head //Time Travel Feature can be accessed by mentioning version of table in option
   // Register the Delta table as a temporary view
   spark.read.format("delta").option("header","true").option("versionAsOf",version).load(delPath).createOrReplaceTempView("delta_table")
 
-  val startTime = System.nanoTime()
+  status.writeFile("true")
+  Thread.sleep(200)
 
+  val startTime = System.nanoTime()
   // Run SQL queries on the Delta table
 //  val result = spark.sql(
 //  s"""
@@ -29,13 +31,22 @@ object fetch extends App{
   val result = spark.sql(
     s"""
        |SELECT * FROM delta_table
-       |WHERE AccountNo="557777"
-       |ORDER BY AccountNo,VALUEDATE;
+       |WHERE AccountNo="557777";
       """.stripMargin)
 
-  val endTime = System.nanoTime()
-  val elapsedTime = (endTime - startTime) / 1e9 // Time in seconds
+//  val result = spark.sql(
+//    s"""
+//       |SELECT AccountNo,COUNT(*) AS count FROM delta_table
+//       |GROUP BY AccountNo
+//       |HAVING AccountNo IN ("409000611074'","1196428'");
+//      """.stripMargin)
 
+  println(status.readFile())
+
+  val endTime = System.nanoTime()
+  status.writeFile("false")
+
+  val elapsedTime = (endTime - startTime) / 1e9 // Time in seconds
   result.show(truncate=false)
 
   //Using dataframe
@@ -57,7 +68,7 @@ object fetch extends App{
 //  filterdf.show(truncate=false)
 //
 //  println()
-  // println(s"Elapsed time for query: '$elapsedTime' ")
+  println(s"Elapsed time for query: '$elapsedTime' ")
 //  println(s"Elapsed time for query using dataframe method: '$elapsedTime2' ")
 //  print(s"${time.getTime()}")
 //  println()

@@ -1,8 +1,10 @@
-package example
-import org.apache.spark.sql.{SparkSession,DataFrame}
+package example.features
+
+import example.Extra
+import io.delta.tables.DeltaTable
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import io.delta.tables.DeltaTable
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object upsert extends App{
     val spark = SparkSession.builder()
@@ -55,7 +57,7 @@ object upsert extends App{
       .option("treatEmptyValuesAsNulls", "true")
       .option("inferSchema", "false")
       .schema(schema)
-      .csv("/home/avyuthan-shah/Desktop/F1Intern/Datasets/banktrans100k.csv")
+      .csv("/home/avyuthan-shah/Desktop/F1Intern/Datasets/banktrans10k.csv")
 
     import spark.implicits._  //to use to_date and get map schemas
 

@@ -1,7 +1,9 @@
-package example
+package example.features
+
+import example.Extra.time
+import io.delta.tables.DeltaTable
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
-import io.delta.tables.DeltaTable
 
 object schemaEnf extends App{
   val spark = SparkSession.builder()

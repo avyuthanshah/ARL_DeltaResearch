@@ -1,7 +1,8 @@
-package example
+package example.features
 
-import org.apache.spark.sql.functions._
+import example.Extra.time
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
 
 object consistency {
   def main(args:Array[String]):Unit= {

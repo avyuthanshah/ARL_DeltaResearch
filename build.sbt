@@ -19,7 +19,9 @@ lazy val root = (project in file("."))
 //      "com.typesafe.akka" %% "akka-actor" % "2.8.5",
       "org.apache.hadoop" % "hadoop-client" % "3.3.6",
       "org.apache.hadoop" % "hadoop-client-api" % "3.3.6",
-      munit % Test
+      "com.github.oshi" % "oshi-core" % "6.6.1",
+
+        munit % Test
     )
   )
 

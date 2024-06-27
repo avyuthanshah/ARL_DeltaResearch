@@ -1,9 +1,9 @@
-package example
+package example.features
 
+import example.Extra
 import io.delta.tables.DeltaTable
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object upsert2 extends App{
     val spark = SparkSession.builder()
@@ -17,9 +17,9 @@ object upsert2 extends App{
 
     import spark.implicits._
     val df = Seq(
-        ("557777", "2024-06-16", "Deposit", "Null", "2024-06-16", 0.0, 100.0, 400.0),
-        ("557777", "2024-06-18", "Deposit", "Null", "2024-06-18", 0.0, 300.0, 700.0),
-        ("667777", "2024-06-13", "Deposit", "Null", "2024-06-13", 0.0, 8000.0, 8000.0)
+        ("557777", "2024-06-16", "Deposit", "Null", "2024-06-16", 0.0, 100.0, 100.0),
+        ("557777", "2024-06-18", "Deposit", "Null", "2024-06-13", 0.0, 300.0, 400.0),
+        ("557777", "2024-06-13", "Deposit", "Null", "2024-06-28", 0.0, 8000.0, 8400.0)
     )
       .toDF("AccountNo", "DATE", "TRANSACTIONDETAILS", "CHQNO", "VALUEDATE", "WITHDRAWALAMT", "DEPOSITAMT", "BALANCEAMT")
       .withColumn("DATE", to_date($"DATE"))
